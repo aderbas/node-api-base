@@ -2,6 +2,10 @@
 var Promise = require('bluebird'),
     util    = require('util');
 
+/**
+ * This is an example of a user controller
+ * This module is responsible for all operations related to user table.
+ */
 module.exports = function(app){
   return {
     getUsers: function(){
