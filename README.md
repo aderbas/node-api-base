@@ -8,9 +8,10 @@ Using [MassiveJS](https://github.com/robconery/massive-js) relational data acces
 
 Using [express-jwt](https://github.com/auth0/express-jwt) to validate JWT.
 
-
-
+* How to use
+ 
 ```
+$ cd node-api-base/
 $ npm install
 $ node app.js
 ```
