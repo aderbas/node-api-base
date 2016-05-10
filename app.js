@@ -63,7 +63,7 @@ app.post('/api/auth', function(req,res){
     var u = {email: 'aderbal@aderbalnunes.com', name: 'Aderbas'};
     var token = jwt.sign(u, secret, { expiresIn: 60*200 });
     // return token
-    res.json(extend(u, {token: token}));
+    res.json(show.result({token: token}));
   }else{
     res.json(show.error('Email or Password not match'));
     return;
