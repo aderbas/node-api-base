@@ -1,6 +1,5 @@
 // User Controller
-var Promise = require('bluebird'),
-    util    = require('util');
+var util    = require('util');
 
 /**
  * This is an example of a user controller
@@ -9,25 +8,27 @@ var Promise = require('bluebird'),
 module.exports = function(app){
   return {
     getUsers: function(){
-      return new Promise(function(resolve, reject){
-        app.get('db').table_user.find(function(err, users){
-          if(err !== null){
-            resolve({result: users});
-          }else{
-            reject({error: 'Not found users'});
-          }
-        });
+      return Promise.resolve({ then: (resolve, reject) => {
+          app.get('db').table_user.find().then((users) => {
+            if(users){
+              resolve(users);
+            }else{
+              reject({err: 'Users not found'});   
+            }
+          });
+        }
       });
     }, // getUsers
     getUser: function(id){
-      return new Promise(function(resolve, reject){
-        app.get('db').table_user.find({id: id}, function(err, user){
-          if(err !== null){
-            resolve({result: user});
-          }else{
-            reject({error: 'User not found'});
-          }
-        });
+      return Promise.resolve({ then: (resolve, reject) => {
+          app.get('db').table_users.findOne({id: id}).then((User) => {
+            if(User){
+              resolve(User);
+            }else{
+              reject({err: 'User not found'});   
+            }
+          });
+        }
       });
     }, // getUser
   };
