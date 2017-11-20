@@ -4,31 +4,20 @@ var show = require('../show');
 // User routes
 module.exports = function(express,app){
   // router
-  var router = express.Router();
+  let router = express.Router();
   // use Controller
   /**
    * To use the query in the database on router
-   * var userctrl = require('../controller/usercontroller.js')(app);
-   * userctrl.getUser(123).then( function(user){ }, function(err){ } );
    */
+  let userctrl = require('../controller/usercontroller.js')(app);
 
   // create routes
-  router.get('/', function(req,res){
-    // fake data
-    res.json(show.result([
-      {id: 123, name: 'Bal', email: 'aderbal@domain.com'},
-      {id: 321, name: 'Tiago', email: 'tiago@domain.com'},
-    ]));
+  router.get('/', (req,res) => {
+    userctrl.getAll().then((result) => { res.json(result); }, (err) => { res.json(err); });
   });
 
   router.get('/:id', function(req,res){
-    var id = req.body.id;
-    // fake data
-    res.json(show.result({
-      id: 321,
-      name: 'Tiago',
-      email: 'tiago@domain.com'
-    }));
+    userctrl.get(req.params.id).then((result) => { res.json(result); }, (err) => { res.json(err); });
   });
 
   return router;
