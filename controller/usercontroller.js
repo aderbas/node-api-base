@@ -19,7 +19,7 @@ module.exports = function(app){
         }
       });
     }, // getUsers
-    getUser: function(id){
+    get: function(id){
       return Promise.resolve({ then: (resolve, reject) => {
           app.get('db').table_users.findOne({id: id}).then((User) => {
             if(User){
