@@ -22,13 +22,6 @@ var express       = require('express'),
 var port = process.env.PORT || 3000; // check if nothing running on port 3000
 var app = express();
 
-/**
- * Uncomment here after editing the connection string
- * @see db/database.js
- */
-//util.log('Scaning database...');
-//app.set('db', require('./db/database.js').conn());
-
 var unlessRouter = {path: ['/api/auth', '/api/version']};
 
 // We are going to protect /api routes with JWT
@@ -75,8 +68,18 @@ app.use('/api/user', require('./routes/user')(express,app));
 // ########################
 
 // ################## SERVER
-var server = http.createServer(app).listen(port);
-// if using https protocol: var server = https.createServer(require('./certificate.js'), app).listen(4430);
-// see certificate.js
-util.log('Listen on port '+port);
+let server;
+/**
+ * Check connection params after editing the connection string
+ * @see db/database.js
+ */ 
+require('./database/database.js').conn
+  .then((db) => {     
+      util.log('Database scanning finished.');
+      app.set('db', db);
+      server = http.createServer(app).listen(port);
+      // if using https protocol: var server = https.createServer(require('./certificate.js'), app).listen(4430);
+      // see certificate.js
+      util.log('Listen on port '+port);
+});
 // ############## END SERVER
