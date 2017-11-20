@@ -42,7 +42,7 @@ app.use(function(err,req,res,next){
   res.json(show.error('Unauthorized', 401));
 });
 app.get('/api/version', function(req,res){
-  res.json({version: '0.1.2'});
+  res.json({version: '0.1.4'});
 });
 
 // autenticate
