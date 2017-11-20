@@ -1,8 +1,7 @@
 // database connection instance
+const massive = require('massive');
+const connectionString = "postgres://<user>:<pwd>@<host>/<databasename>"; // if use ssl: ?ssl=true"
+
 module.exports = {
-  conn: function(){
-    return require("massive").connectSync({
-      connectionString : "postgres://databaseuser:password@host/database" // if use ssl: ?ssl=true"
-    });
-  }
+  conn: massive(connectionString)
 };
