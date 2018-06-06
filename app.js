@@ -17,11 +17,14 @@ var express       = require('express'),
     extend        = require('util-extend'),
     http          = require('http'),
     show          = require('./show'),
-    secret        = 'mySecr3t3';
+    fs            = require('fs'),
+    ini           = require('ini');
 
 var port = process.env.PORT || 3000; // check if nothing running on port 3000
 var app = express();
-
+// config file
+var config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+app.set('config', config);
 var unlessRouter = {path: ['/api/auth', '/api/version']};
 
 // We are going to protect /api routes with JWT
@@ -42,7 +45,7 @@ app.use(function(err,req,res,next){
   res.json(show.error('Unauthorized', 401));
 });
 app.get('/api/version', function(req,res){
-  res.json({version: '0.1.4'});
+  res.json({version: '0.1.5'});
 });
 
 // autenticate
@@ -54,7 +57,7 @@ app.post('/api/auth', function(req,res){
   // fake login and fake user data
   if(req.body.email === 'aderbal@aderbalnunes.com' && req.body.pwd === '123456'){
     var u = {email: 'aderbal@aderbalnunes.com', name: 'Aderbas'};
-    var token = jwt.sign(u, secret, { expiresIn: 60*200 });
+    var token = jwt.sign(u, config.api.secret, { expiresIn: config.api.expires });
     // return token
     res.json(show.result({token: token}));
   }else{
